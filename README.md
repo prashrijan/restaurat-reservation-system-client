@@ -1,12 +1,37 @@
-# React + Vite
+# RestoReserve — React + Bootstrap (Customer & Admin)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Customer:
+- Book: enter details → check availability → pick table → book
+- My Bookings: search by phone → edit (re-check availability) or cancel
 
-Currently, two official plugins are available:
+Admin:
+- Reservations: filter by date/status/phone → edit (re-check) or cancel
+- Tables: create and toggle availability
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run
+```bash
+npm i
+echo "VITE_API_BASE_URL=http://127.0.0.1:8000/api" > .env.local   # adjust if needed
+npm run dev
+```
+Open http://localhost:5173
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### API expectations
+- POST /reservations/ accepts:
+```json
+{
+  "reservation_start": "ISO",
+  "reservation_end": "ISO",
+  "table_id": 1,
+  "status": "CONFIRMED",
+  "no_of_people": 4,
+  "customer_data": {
+    "customer_name": "Alice",
+    "customer_phone": "+614...",
+    "customer_email": "a@example.com"
+  }
+}
+```
+- GET /reservations?customer_phone=+614... returns that customer's bookings.
+- PATCH /reservations/{id}/ supports updating times/people/table_id or cancelling.
+- GET /availability/?start=ISO&end=ISO&people=4 returns free tables.

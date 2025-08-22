@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { NavLink, Outlet } from 'react-router-dom'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App(){
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-vh-100 d-flex flex-column bg-light">
+      <nav className="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div className="container">
+          <NavLink to="/" className="navbar-brand fw-semibold">RestoReserve</NavLink>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div id="nav" className="collapse navbar-collapse">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item"><NavLink to="/" className="nav-link">Customer</NavLink></li>
+              <li className="nav-item"><NavLink to="/admin" className="nav-link">Admin</NavLink></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <main className="container my-4 flex-grow-1">
+        <Outlet />
+      </main>
+      <footer className="bg-white border-top py-3">
+        <div className="container small text-muted">
+          API: {import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api'}
+        </div>
+      </footer>
+    </div>
   )
 }
-
-export default App
